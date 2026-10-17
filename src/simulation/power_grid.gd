@@ -1,5 +1,5 @@
 extends "res://src/economy/PowerGrid.gd"
-const Primitive = preload("res://mods/adam_eve/primitive_power.gd")
+const Primitive = preload("res://mods/adam_eve/src/simulation/primitive_power.gd")
 
 func _primitive(body: String, external: Dictionary) -> bool:
 	return Primitive.applies(model,body,model.economies.get(body,{}),game.econ.types,external)

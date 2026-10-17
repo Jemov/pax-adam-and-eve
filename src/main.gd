@@ -9,7 +9,7 @@ var _saved_faction: Dictionary = {}
 func _mod_loaded() -> void:
 	hook("ai_request", _narrator)
 	hook("economy_week", _economy_week)
-	Pax.replace_service("power_grid", path("power_grid.gd"))
+	Pax.replace_service("power_grid", path("src/simulation/power_grid.gd"))
 	Pax.register_command("adam_eve_status", _status, "adam_eve_status — check the Adam and Eve scenario")
 
 func _active(game: PaxGame) -> bool:
@@ -60,7 +60,7 @@ func _initialize(game: PaxGame, world_id: int) -> void:
 		economy["enterprises"] = []
 		economy["capacity_old"] = 0.0
 		economy["capacity_stations"] = 0.0
-		preload("res://mods/adam_eve/primitive_power.gd").clear_baseline(economy)
+		preload("res://mods/adam_eve/src/simulation/primitive_power.gd").clear_baseline(economy)
 	model.mines.clear()
 	model.laws.clear()
 	model.research_list.clear()
@@ -111,7 +111,7 @@ func _refresh_primitive_power(game: PaxGame, body: String) -> void:
 	if not _active(game): return
 	var root: Node = game.scene_root()
 	var economy: Dictionary = game.econ.of(body)
-	var policy: Script = preload("res://mods/adam_eve/primitive_power.gd")
+	var policy: Script = preload("res://mods/adam_eve/src/simulation/primitive_power.gd")
 	if policy.applies(root.model,body,economy,root.econ.types,root.power_grid().load_without_economy(body)):
 		policy.clear_baseline(economy)
 
