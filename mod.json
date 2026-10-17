@@ -1,0 +1,24 @@
+{
+  "id": "adam_eve",
+  "name": {
+    "ru": "Адам и Ева — с нуля",
+    "en": "Adam and Eve — From Nothing"
+  },
+  "version": "1.0.3",
+  "api": 1,
+  "description": {
+    "ru": "Зарождение человечества. Всего два человека: Адам и Ева. Игрок управляет их будущим. Первозданная Земля с животными, без других людей, городов и запасов.",
+    "en": "Humanity begins with exactly two people, Adam and Eve. The player guides them. Pristine Earth, wildlife, no other nations and no supplies."
+  },
+  "tags": [
+    "scenario",
+    "survival"
+  ],
+  "depends": [
+    "solar_system"
+  ],
+  "entry": "main.gd",
+  "authors": [
+    "Jemov"
+  ]
+}
