@@ -11,6 +11,7 @@ var _saved_faction: Dictionary = {}
 func _mod_loaded() -> void:
 	L.configure(load_json("data/lang/ru.json",{}),load_json("data/lang/en.json",{}))
 	_localization = L.new(); add_child(_localization); _localization.setup(_localization_roots)
+	_localization.language_changed.connect(_language_changed)
 	hook("ai_request", _narrator)
 	hook("economy_week", _economy_week)
 	Pax.replace_service("power_grid", path("src/simulation/power_grid.gd"))
@@ -18,6 +19,15 @@ func _mod_loaded() -> void:
 
 func _active(game: PaxGame) -> bool:
 	return game != null and bool(game.scene_root().model.preset.get("adam_eve_scenario", false))
+
+func _language_changed() -> void:
+	if not _active(Pax.game): return
+	var main: Node = Pax.game.scene_root()
+	# Regenerate the native numeric captions before translating scenario level names.
+	if main.has_method("development_window"):
+		var development: Object = main.call("development_window")
+		if development != null and development.has_method("refresh"): development.call("refresh")
+	_localization.refresh(true)
 
 func _game_loaded(_game: PaxGame, state: Dictionary) -> void:
 	_restored = bool(state.get("initialized", false))
