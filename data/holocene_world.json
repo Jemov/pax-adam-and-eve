@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "period_bce": 4000,
+  "dimensions": [
+    4096,
+    2048
+  ],
+  "global_anomaly_vs_1850_1900_c": {
+    "range": [
+      0.2,
+      1.0
+    ],
+    "illustrative_midpoint": 0.6
+  },
+  "features": [
+    {
+      "id": "mega_chad",
+      "polygon": [
+        [
+          12.81258747206926,
+          12.132567478453428
+        ],
+        [
+          13.940059980847492,
+          11.722577475261344
+        ],
+        [
+          15.375024992019789,
+          11.927572476857387
+        ],
+        [
+          16.707492502394064,
+          12.440059980847492
+        ],
+        [
+          18.03996001276834,
+          13.055044985635618
+        ],
+        [
+          19.269930022344592,
+          14.592507497605936
+        ],
+        [
+          20.089910028728763,
+          16.02747250877823
+        ],
+        [
+          19.88491502713272,
+          17.667432521546573
+        ],
+        [
+          18.44995001596042,
+          18.179920025536678
+        ],
+        [
+          17.42497500798021,
+          17.667432521546573
+        ],
+        [
+          15.990009996807915,
+          17.154945017556468
+        ],
+        [
+          14.65754248643364,
+          16.129970009576255
+        ],
+        [
+          13.325074976059366,
+          14.592507497605936
+        ]
+      ],
+      "area_km2": 354093,
+      "confidence": "schematic high-water shoreline, ~350,000 km²; uncertainty not quantified"
+    },
+    {
+      "id": "turkana",
+      "polygon": [
+        [
+          35.5,
+          2.5
+        ],
+        [
+          35.75,
+          3.5
+        ],
+        [
+          35.8,
+          4.5
+        ],
+        [
+          36.1,
+          5.05
+        ],
+        [
+          36.5,
+          5.15
+        ],
+        [
+          36.65,
+          4.5
+        ],
+        [
+          36.5,
+          3.5
+        ],
+        [
+          36.1,
+          2.5
+        ]
+      ],
+      "area_km2": 26016,
+      "confidence": "schematic larger mid-Holocene lake"
+    },
+    {
+      "id": "persian_gulf",
+      "polygon": [
+        [
+          48.0,
+          29.7
+        ],
+        [
+          48.35,
+          30.0
+        ],
+        [
+          47.8,
+          30.55
+        ],
+        [
+          47.1,
+          30.9
+        ],
+        [
+          46.6,
+          30.85
+        ],
+        [
+          46.9,
+          30.45
+        ],
+        [
+          47.5,
+          30.1
+        ]
+      ],
+      "area_km2": 10303,
+      "confidence": "uncertain local shoreline; schematic northern embayment"
+    },
+    {
+      "id": "bothnian_bay",
+      "polygon": [
+        [
+          23.4,
+          65.4
+        ],
+        [
+          24.2,
+          65.35
+        ],
+        [
+          25.3,
+          65.65
+        ],
+        [
+          25.0,
+          66.05
+        ],
+        [
+          24.2,
+          66.1
+        ],
+        [
+          23.65,
+          65.85
+        ]
+      ],
+      "area_km2": 5339,
+      "confidence": "schematic Littorina coastal inundation; local uplift is not simulated"
+    },
+    {
+      "id": "arabian_lake",
+      "polygon": [
+        [
+          45.0,
+          18.2
+        ],
+        [
+          45.25,
+          18.55
+        ],
+        [
+          45.65,
+          18.45
+        ],
+        [
+          45.65,
+          18.15
+        ],
+        [
+          45.3,
+          18.0
+        ]
+      ],
+      "area_km2": 3446,
+      "confidence": "schematic southern Arabian palaeolake"
+    }
+  ],
+  "added_water_pixels": 4409,
+  "ice_channels": [
+    "north_march",
+    "north_september",
+    "south_september",
+    "south_march"
+  ],
+  "seasonal_ice": "schematic; NH maximum in March, SH maximum in September",
+  "biomes": "schematic mid-Holocene steppe/savanna in Sahara and wetter southern Arabia"
+}

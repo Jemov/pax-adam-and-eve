@@ -1,17 +1,21 @@
 extends PaxMod
 const L = preload("res://mods/adam_eve/src/localization/localization.gd")
 var _localization: Node
+var _geography: Node
 
 # All changes are conditional on the scenario marker. No global data patches.
 var _restored := false
 var _initialized := false
 var _world_id := 0
 var _saved_faction: Dictionary = {}
+var _loaded_geography_state: Variant = null
 
 func _mod_loaded() -> void:
 	L.configure(load_json("data/lang/ru.json",{}),load_json("data/lang/en.json",{}))
 	_localization = L.new(); add_child(_localization); _localization.setup(_localization_roots)
 	_localization.language_changed.connect(_language_changed)
+	_geography = preload("res://mods/adam_eve/src/world/holocene_world.gd").new()
+	add_child(_geography); _geography.setup(self)
 	hook("ai_request", _narrator)
 	hook("economy_week", _economy_week)
 	Pax.replace_service("power_grid", path("src/simulation/power_grid.gd"))
@@ -32,8 +36,14 @@ func _language_changed() -> void:
 func _game_loaded(_game: PaxGame, state: Dictionary) -> void:
 	_restored = bool(state.get("initialized", false))
 	_saved_faction = state.get("faction", {}).duplicate(true) if state.get("faction", {}) is Dictionary else {}
+	_loaded_geography_state = {"geography_version":state.get("geography_version",0),"calendar_start":state.get("calendar_start")}
 
 func _world_ready(game: PaxGame) -> void:
+	if _loaded_geography_state is Dictionary and _active(game):
+		game.scene_root().model.preset = preload("res://mods/adam_eve/src/world/scenario_state.gd").restored_preset(game.scene_root().model.preset,_loaded_geography_state)
+		game.scene_root().hud().refresh_header()
+	_loaded_geography_state = null
+	_geography.world_ready(game)
 	if not _active(game):
 		_initialized = false
 		_restored = false
@@ -132,6 +142,9 @@ func _refresh_primitive_power(game: PaxGame, body: String) -> void:
 func _economy_week(data: Dictionary) -> void:
 	if _active(Pax.game): _refresh_primitive_power(Pax.game,str(data.get("body",Pax.game.home_body())))
 
+func _days_passed(game: PaxGame, _from_day: int, _days: int) -> void:
+	if _geography != null and _geography.applies(game): _geography.update_season(game)
+
 func _keep_founders_in_memory(game: PaxGame) -> void:
 	var root: Node = game.scene_root()
 	var memory = root.model.get("memory")
@@ -185,25 +198,27 @@ func _save_state(game: PaxGame) -> Dictionary:
 	var ours: Dictionary = game.player_faction()
 	var point: Vector3 = ours.get("capital",Vector3.ZERO)
 	var tint: Color = ours.get("colour",Color(0.42,0.75,0.4))
-	return {"initialized": _initialized, "faction":{"name":str(ours.get("name","Эдем")),"description":str(ours.get("description","")),"capital":[point.x,point.y,point.z],"colour":[tint.r,tint.g,tint.b]}}
+	return {"initialized": _initialized,"geography_version":int(game.scene_root().model.preset.get("adam_eve_geography_version",0)),"calendar_start":game.scene_root().model.preset.get("start",{}).duplicate(true), "faction":{"name":str(ours.get("name","Эдем")),"description":str(ours.get("description","")),"capital":[point.x,point.y,point.z],"colour":[tint.r,tint.g,tint.b]}}
 
 func _narrator(d: Dictionary) -> void:
 	if not _active(Pax.game):
 		return
 	var rules: Dictionary = Pax.game.scene_root().model.preset.get("story", {})
 	d["system"] = str(d.get("system", "")) + "\n\n" + L.text(str(rules.get("rules_for_ai", "")))
+	if _geography != null and _geography.applies(Pax.game): d["system"] += "\n\n"+_geography.narrative(L.language())
 
 func _status(_args: PackedStringArray) -> String:
 	if not _active(Pax.game):
 		return "Adam and Eve is installed; this game uses another scenario."
 	var game: PaxGame = Pax.game
 	var earth: String = game.home_body()
-	return JSON.stringify({"initialized": _initialized, "people": game.people(earth), "other_countries": game.countries(), "stock": game.resources(earth), "enterprises": game.econ.of(earth).get("enterprises", []), "adam": game.has_character("Адам"), "eve": game.has_character("Ева")})
+	return JSON.stringify({"initialized": _initialized, "people": game.people(earth), "other_countries": game.countries(), "stock": game.resources(earth), "enterprises": game.econ.of(earth).get("enterprises", []), "adam": game.has_character("Адам"), "eve": game.has_character("Ева"),"geography":_geography.describe() if _geography != null else {}})
 
 func _localization_roots() -> Array:
 	if not _active(Pax.game): return []
 	return Pax.game.scene_root().get_children().filter(func(node: Node): return node is CanvasLayer or node is Control or node is Window)
 
 func _mod_unloaded() -> void:
+	if is_instance_valid(_geography): _geography.dispose()
 	if is_instance_valid(_localization): _localization.queue_free()
 	_localization = null
