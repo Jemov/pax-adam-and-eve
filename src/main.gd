@@ -27,6 +27,19 @@ func _active(game: PaxGame) -> bool:
 func _language_changed() -> void:
 	if not _active(Pax.game): return
 	var main: Node = Pax.game.scene_root()
+	# The native mining panel keeps the campaign Language object. Menu language
+	# changes can leave it on the previous dictionary until another world load.
+	var language: Variant=main.get("lang")
+	if language is Object and language.has_method("switch_") and str(language.get("code"))!=Pax.game.language():
+		language.call("switch_",Pax.game.language())
+	var ui: Variant=main.get("ui")
+	var mining: Variant=ui.get("mining_window") if ui is Object else null
+	if mining is Control and mining.has_method("show_it") and main.has_method("mining"):
+		var provider: Variant=main.call("mining")
+		if provider is Object and provider.has_method("mines_for_window"):
+			var was_visible: bool=mining.visible
+			mining.call("show_it",provider.call("mines_for_window"))
+			mining.visible=was_visible
 	# Regenerate the native numeric captions before translating scenario level names.
 	if main.has_method("development_window"):
 		var development: Object = main.call("development_window")

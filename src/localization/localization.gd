@@ -7,6 +7,7 @@ static var _keys: Dictionary = {}
 static var _reverse: Dictionary = {}
 static var _pattern: RegEx
 static var forced_language := ""
+const ENTERPRISE_ALIASES := {"wells":"adam_eve_enterprise_wells","gardens":"adam_eve_enterprise_gardens"}
 var roots: Callable
 var _elapsed := 0.0
 var _language := ""
@@ -140,10 +141,27 @@ func _property(node: Node, property: String) -> void:
 		node.set(property,render_parts(binding)); return
 	var value: Variant = node.get(property)
 	if value is String: node.set(property,_translated(node,property,value))
+func _in_native_mining(node: Node) -> bool:
+	var parent: Node=node.get_parent()
+	while parent!=null:
+		var script: Variant=parent.get_script()
+		if script is Script and script.resource_path=="res://src/ui/MiningPanel.gd": return true
+		parent=parent.get_parent()
+	return false
+static func english_mining_numbers(value: String) -> String:
+	return value.replace(" тыс.","K").replace(" млн","M").replace(" млрд","B").replace(" трлн","T")
 func _translated(node: Node, property: String, current: String) -> String:
 	var key := "mod_i18n_"+MOD_ID+"_"+property
 	var previous: Array = node.get_meta(key,[])
 	var source: String = str(previous[0]) if previous.size() == 3 and current == previous[1] else str(_reverse.get(current,current))
+	# The native mining panel can use a technical enterprise ID as its title.
+	# Translate only those native labels inside this scenario's UI scope; leave
+	# save IDs, orders, custom names and all other text untouched.
+	var native_mining: bool=property=="text" and node is Label and _in_native_mining(node)
+	if native_mining and ENTERPRISE_ALIASES.has(source): source=str(_ru.get(ENTERPRISE_ALIASES[source],source))
 	if previous.size() == 3 and current == previous[1] and _language == previous[2]: return current
 	var result: String = text(source)
+	# Numeric detail lines live directly in the row VBox; the user-named title
+	# lives in a separate HBox and must remain verbatim.
+	if native_mining and node.get_parent() is VBoxContainer and _language=="en": result=english_mining_numbers(result)
 	node.set_meta(key,[source,result,_language]); return result
