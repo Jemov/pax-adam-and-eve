@@ -1,4 +1,6 @@
 extends PaxMod
+const L = preload("res://mods/adam_eve/src/localization/localization.gd")
+var _localization: Node
 
 # All changes are conditional on the scenario marker. No global data patches.
 var _restored := false
@@ -7,6 +9,8 @@ var _world_id := 0
 var _saved_faction: Dictionary = {}
 
 func _mod_loaded() -> void:
+	L.configure(load_json("data/lang/ru.json",{}),load_json("data/lang/en.json",{}))
+	_localization = L.new(); add_child(_localization); _localization.setup(_localization_roots)
 	hook("ai_request", _narrator)
 	hook("economy_week", _economy_week)
 	Pax.replace_service("power_grid", path("src/simulation/power_grid.gd"))
@@ -177,7 +181,7 @@ func _narrator(d: Dictionary) -> void:
 	if not _active(Pax.game):
 		return
 	var rules: Dictionary = Pax.game.scene_root().model.preset.get("story", {})
-	d["system"] = str(d.get("system", "")) + "\n\n" + str(rules.get("rules_for_ai", ""))
+	d["system"] = str(d.get("system", "")) + "\n\n" + L.text(str(rules.get("rules_for_ai", "")))
 
 func _status(_args: PackedStringArray) -> String:
 	if not _active(Pax.game):
@@ -185,3 +189,11 @@ func _status(_args: PackedStringArray) -> String:
 	var game: PaxGame = Pax.game
 	var earth: String = game.home_body()
 	return JSON.stringify({"initialized": _initialized, "people": game.people(earth), "other_countries": game.countries(), "stock": game.resources(earth), "enterprises": game.econ.of(earth).get("enterprises", []), "adam": game.has_character("Адам"), "eve": game.has_character("Ева")})
+
+func _localization_roots() -> Array:
+	if not _active(Pax.game): return []
+	return Pax.game.scene_root().get_children().filter(func(node: Node): return node is CanvasLayer or node is Control or node is Window)
+
+func _mod_unloaded() -> void:
+	if is_instance_valid(_localization): _localization.queue_free()
+	_localization = null

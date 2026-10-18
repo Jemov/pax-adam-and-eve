@@ -1,5 +1,7 @@
 # Адам и Ева — с нуля
 
+[English](docs/README.en.md)
+
 ![Иллюстрация сценария: Адам и Ева](media/banner.webp)
 
 Сценарий для **Pax Universe**, в котором всё человечество — Адам и Ева. Вы направляете их первые шаги: от поиска воды и ночлега до освоения навыков и создания поселения.
@@ -19,7 +21,7 @@
 
 ## Установка и начало игры
 
-Версия мода: **1.0.5**. Проверенная версия игры: **0.31.4**.
+Версия мода: **1.1.0**. Проверенная версия игры: **0.31.4**.
 
 Требуется стандартный мод **«Солнечная система» (`solar_system`)**, поставляемый с игрой.
 
@@ -30,7 +32,7 @@
 
 ### Вручную из GitHub
 
-1. Скачайте `adam_eve-1.0.5.zip` из раздела **Releases** и закройте игру.
+1. Скачайте `adam_eve-1.1.0.zip` из раздела **Releases** и закройте игру.
 2. Откройте **Лаунчер → Моды → Папка модов** и поместите туда ZIP целиком. Распаковывать архив не нужно. На Windows пользовательская папка обычно находится в `%APPDATA%\Pax Universe\mods`.
 3. Запустите игру и включите **«Адам и Ева — с нуля»** и **«Солнечная система»** в разделе **Моды**.
 
@@ -52,3 +54,13 @@
 **Adam and Eve — From Nothing** is a Pax Universe scenario starting with exactly two adults, no supplies or infrastructure, and a pristine Earth with wildlife. Guide their search for water, food and shelter, speak with both characters, and develop practical skills through your orders. The player is a guiding role, not a third inhabitant. Starting energy, grid capacity and load are all zero.
 
 Tested with **Pax Universe 0.31.4**. Install **Adam and Eve — From Nothing** from the launcher's official **Workshop**, or download the release ZIP from GitHub. Requires the game's standard **Solar System (`solar_system`)** mod. For manual installation, place the release ZIP in the game's user `mods` folder without extracting it, enable both mods, then start a new game with **«Адам и Ева — с нуля» → «Эдем»** and select the head-of-state role. Continuing a scenario save preserves its progress and resources. The banner is an illustration, not a gameplay screenshot.
+
+## Языки / Languages
+
+Русский и английский. Язык интерфейса мода следует языку игры и меняется вместе с ним; отдельного переключателя нет. Текст переписки, пользовательские названия и введённые данные не переводятся.
+
+Russian and English. The mod follows the game language, including open windows. There is no separate language switch. Conversation text, custom names and entered data remain unchanged.
+
+Переведены описание сценария, персонажи, вступление и все 360 ступеней развития с описаниями. Внутренние идентификаторы объектов сохраняются.
+
+Scenario description, characters, introduction and all 360 development levels and their descriptions are translated. Internal object identities are preserved.
