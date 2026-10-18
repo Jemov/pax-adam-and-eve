@@ -19,12 +19,27 @@
 
 ## Установка и начало игры
 
+Версия мода: **1.0.5**. Проверенная версия игры: **0.31.4**.
+
 Требуется стандартный мод **«Солнечная система» (`solar_system`)**, поставляемый с игрой.
 
-1. Скачайте `adam_eve-1.0.4.zip` из **Releases** и поместите архив целиком в пользовательскую папку `mods` игры. Распаковывать его не нужно. На Windows папка обычно находится в `%APPDATA%\Pax Universe\mods`.
-2. В списке модов включите «Адам и Ева — с нуля» и «Солнечная система».
-3. Выберите **Новая игра → Адам и Ева — с нуля → Эдем**.
-4. Выберите роль главы страны: в этом сценарии она означает управление всей группой.
+### Через официальную мастерскую
+
+1. В лаунчере откройте **Мастерская**, найдите **«Адам и Ева — с нуля»** и нажмите **«Установить»**.
+2. В разделе **Моды** включите сценарий и **«Солнечная система»**.
+
+### Вручную из GitHub
+
+1. Скачайте `adam_eve-1.0.5.zip` из раздела **Releases** и закройте игру.
+2. Откройте **Лаунчер → Моды → Папка модов** и поместите туда ZIP целиком. Распаковывать архив не нужно. На Windows пользовательская папка обычно находится в `%APPDATA%\Pax Universe\mods`.
+3. Запустите игру и включите **«Адам и Ева — с нуля»** и **«Солнечная система»** в разделе **Моды**.
+
+Не устанавливайте одновременно архив и распакованную копию сценария. При ручном обновлении замените прежнюю копию при закрытой игре; установка из мастерской обновляется через лаунчер.
+
+### Начать сценарий
+
+1. Выберите **Новая игра → Адам и Ева — с нуля → Эдем**.
+2. Выберите роль главы страны: в этом сценарии она означает управление всей группой.
 
 Для начала сценария создайте новую партию. Загрузка уже начатого сохранения сценария **не обнуляет ресурсы, навыки и достижения**. Другие сценарии не превращаются в мир Адама и Евы.
 
@@ -36,4 +51,4 @@
 
 **Adam and Eve — From Nothing** is a Pax Universe scenario starting with exactly two adults, no supplies or infrastructure, and a pristine Earth with wildlife. Guide their search for water, food and shelter, speak with both characters, and develop practical skills through your orders. The player is a guiding role, not a third inhabitant. Starting energy, grid capacity and load are all zero.
 
-Requires the game's standard **Solar System (`solar_system`)** mod. Place the release ZIP in the game's user `mods` folder without extracting it, enable both mods, then start a new game with **«Адам и Ева — с нуля» → «Эдем»** and select the head-of-state role. Continuing a scenario save preserves its progress and resources. The banner is an illustration, not a gameplay screenshot.
+Tested with **Pax Universe 0.31.4**. Install **Adam and Eve — From Nothing** from the launcher's official **Workshop**, or download the release ZIP from GitHub. Requires the game's standard **Solar System (`solar_system`)** mod. For manual installation, place the release ZIP in the game's user `mods` folder without extracting it, enable both mods, then start a new game with **«Адам и Ева — с нуля» → «Эдем»** and select the head-of-state role. Continuing a scenario save preserves its progress and resources. The banner is an illustration, not a gameplay screenshot.
