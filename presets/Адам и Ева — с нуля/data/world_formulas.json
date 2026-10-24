@@ -1,6 +1,3 @@
 {
-  "rules": {
-    "people.birthrate": "default * min(1, max(0, people - 19))",
-    "people.mortality": "default * min(1, max(0, people - 19))"
-  }
+  "rules": {}
 }

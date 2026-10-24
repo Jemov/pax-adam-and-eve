@@ -18,6 +18,12 @@ func _mod_loaded() -> void:
 	add_child(_geography); _geography.setup(self)
 	hook("ai_request", _narrator)
 	hook("economy_week", _economy_week)
+	Pax.replace_module("PresetSession", path("src/compat/preset_session.gd"))
+	Pax.replace_module("res://src/preset/WorldRulesFile.gd", path("src/compat/preset_session.gd"))
+	Pax.features.register({"id":"adam_eve_continuation","scripts":[path("src/simulation/successors.gd")],"optional":true})
+	Pax.replace_service("successors", path("src/simulation/successors.gd"))
+	Pax.replace_service("rewind", path("src/simulation/rewind.gd"))
+	Pax.replace_service("order_execution", path("src/simulation/order_execution.gd"))
 	Pax.replace_service("power_grid", path("src/simulation/power_grid.gd"))
 	Pax.register_command("adam_eve_status", _status, "adam_eve_status — check the Adam and Eve scenario")
 
@@ -68,6 +74,7 @@ func _world_ready(game: PaxGame) -> void:
 	_initialized = _restored or game.day() > 0
 	_restored = false
 	_restore_lone_faction(game)
+	if root.successors().has_method("resume_choice"): root.successors().call_deferred("resume_choice")
 	_keep_founders_in_memory(game)
 	_refresh_primitive_power(game,game.home_body())
 	if not _initialized:
@@ -217,8 +224,11 @@ func _narrator(d: Dictionary) -> void:
 	if not _active(Pax.game):
 		return
 	var rules: Dictionary = Pax.game.scene_root().model.preset.get("story", {})
-	d["system"] = str(d.get("system", "")) + "\n\n" + L.text(str(rules.get("rules_for_ai", "")))
-	if _geography != null and _geography.applies(Pax.game): d["system"] += "\n\n"+_geography.narrative(L.language())
+	var model = Pax.game.scene_root().model
+	if model.player_species.is_empty():
+		d["system"] = str(d.get("system", "")) + "\n\n" + L.text(str(rules.get("rules_for_ai", "")))
+		if _geography != null and _geography.applies(Pax.game): d["system"] += "\n\n"+_geography.narrative(L.language())
+	d["system"] = str(d.get("system", "")) + "\n\n" + preload("res://mods/adam_eve/src/simulation/successors.gd").context(model,L.language()=="ru")
 
 func _status(_args: PackedStringArray) -> String:
 	if not _active(Pax.game):
